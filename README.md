@@ -14,7 +14,7 @@
 - <strong>Atenção</strong>: O candidato precisa fazer o fork do repositório para conseguir abrir o pull request;
 - É necessário submeter um vídeo, com duração máxima de 5 minutos, que explique as funcionalidades do projeto. Recomendamos o uso da extensão ‘Awesome Screenshot’ para navegadores, que permite gravar o vídeo e gerar um link direto para ele. Este link deve ser incluído no arquivo ‘Readme’ do projeto.
 
-Vídeo link = https://www.awesomescreenshot.com/video/26537426
+Vídeo link = https://www.awesomescreenshot.com/workspace/invite/29d08e1ec81d4b1fd46e128ebf2ccc34
 <hr>
 <h2 id="observacoes" style="text-align:center;border-bottom:none">Observações</h2>
 
