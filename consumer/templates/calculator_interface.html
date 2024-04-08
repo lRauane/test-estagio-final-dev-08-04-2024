@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário do Calculadora de Economia de Energia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        input[type="number"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora de Economia de Energia</h1>
+    <form action="{% url 'form' %}" method="post">
+        {% csrf_token %}
+        <label for="consumption1">Consumo (Mês 1):</label>
+        <input type="number" id="consumption1" name="consumption1"><br><br>
+        <label for="consumption2">Consumo (Mês 2):</label>
+        <input type="number" id="consumption2" name="consumption2"><br><br>
+        <label for="consumption3">Consumo (Mês 3):</label>
+        <input type="number" id="consumption3" name="consumption3"><br><br>
+        <label for="distributor_tax">Tarifa da Distribuidora:</label>
+        <input type="text" id="distributor_tax" name="distributor_tax"><br><br>
+        <label for="tax_type">Tipo de Tarifa:</label>
+        <select id="tax_type" name="tax_type">
+            <option value="Residencial">Residencial</option>
+            <option value="Comercial">Comercial</option>
+            <option value="Industrial">Industrial</option>
+        </select><br><br>
+        <input type="submit" value="Calcular">
+    </form>
+     <table>
+        <tr>
+            <th>Economia Anual</th>
+            <td>R$ {{ annual_savings }}</td>
+        </tr>
+        <tr>
+            <th>Economia Mensal</th>
+            <td>R$ {{ monthly_savings }}</td>
+        </tr>
+        <tr>
+            <th>Desconto Aplicado</th>
+            <td>{{ applied_discount }}</td>
+        </tr>
+        <tr>
+            <th>Cobertura</th>
+            <td>{{ coverage }}</td>
+        </tr>
+    </table>
+
+</body>
+</html>
