@@ -4,103 +4,105 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário do Calculadora de Economia de Energia</title>
+    <title>Calculator Interface</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+			flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
+
         form {
-            max-width: 400px;
-            margin: 20px auto;
-            padding: 20px;
             background-color: #fff;
-            border-radius: 5px;
+            padding: 20px;
+            border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
         }
+
         label {
             display: block;
             margin-bottom: 5px;
-            color: #333;
         }
-        input[type="number"],
-        input[type="text"],
-        select {
-            width: 100%;
-            padding: 10px;
+
+        input[type="number"],input[type="text"], select {
+            width: calc(100% - 12px);
+            padding: 8px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
+            border-radius: 4px;
         }
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            background-color: #4caf50;
+
+        button {
+            background-color: #007bff;
             color: #fff;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
+            padding: 10px 20px;
             cursor: pointer;
-            font-size: 16px;
         }
-        input[type="submit"]:hover {
-            background-color: #45a049;
+
+        button:hover {
+            background-color: #0056b3;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
+
+        #result {
+            margin-top: 20px;
         }
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
+
+        #result p {
+            font-size: 18px;
+            color: #333;
         }
     </style>
 </head>
 <body>
-    <h1>Calculadora de Economia de Energia</h1>
-    <form action="{% url 'form' %}" method="post">
-        {% csrf_token %}
-        <label for="consumption1">Consumo (Mês 1):</label>
-        <input type="number" id="consumption1" name="consumption1"><br><br>
-        <label for="consumption2">Consumo (Mês 2):</label>
-        <input type="number" id="consumption2" name="consumption2"><br><br>
-        <label for="consumption3">Consumo (Mês 3):</label>
-        <input type="number" id="consumption3" name="consumption3"><br><br>
-        <label for="distributor_tax">Tarifa da Distribuidora:</label>
-        <input type="text" id="distributor_tax" name="distributor_tax"><br><br>
-        <label for="tax_type">Tipo de Tarifa:</label>
-        <select id="tax_type" name="tax_type">
+    <h1>Interface da Calculadora</h1>
+    <form id="calculatorForm">
+        <label for="consumption_month1">Consumo Mês 1:</label>
+        <input type="number" id="consumption_month1" name="consumption_month1" required><br>
+        <label for="consumption_month2">Consumo Mês 2:</label>
+        <input type="number" id="consumption_month2" name="consumption_month2" required><br>
+        <label for="consumption_month3">Consumo Mês 3:</label>
+        <input type="number" id="consumption_month3" name="consumption_month3" required><br>
+        <label for="distributor_tax">Taxa da Distribuidora:</label>
+        <input type="text" id="distributor_tax" name="distributor_tax" required><br>
+        <label for="tax_type">Tipo de Imposto:</label>
+        <select id="tax_type" name="tax_type" required>
             <option value="Residencial">Residencial</option>
             <option value="Comercial">Comercial</option>
             <option value="Industrial">Industrial</option>
-        </select><br><br>
-        <input type="submit" value="Calcular">
+        </select><br>
+        <button type="submit">Calcular</button>
     </form>
-     <table>
-        <tr>
-            <th>Economia Anual</th>
-            <td>R$ {{ annual_savings }}</td>
-        </tr>
-        <tr>
-            <th>Economia Mensal</th>
-            <td>R$ {{ monthly_savings }}</td>
-        </tr>
-        <tr>
-            <th>Desconto Aplicado</th>
-            <td>{{ applied_discount }}</td>
-        </tr>
-        <tr>
-            <th>Cobertura</th>
-            <td>{{ coverage }}</td>
-        </tr>
-    </table>
 
+    <div id="result"></div>
+	<script>
+        document.getElementById('calculatorForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const form = new FormData(this);
+
+            fetch('/api/calculator/', {
+                method: 'POST',
+                body: form
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerHTML = `
+                    <p>Annual Savings: ${data.annual_savings}</p>
+                    <p>Monthly Savings: ${data.monthly_savings}</p>
+                    <p>Applied Discount: ${data.applied_discount}</p>
+                    <p>Coverage: ${data.coverage}</p>
+                `;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
 </body>
 </html>
