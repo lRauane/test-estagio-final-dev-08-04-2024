@@ -11,7 +11,7 @@ class Consumer(models.Model):
     distributor_tax = models.FloatField(
         "Tarifa da Distribuidora", blank=True, null=True
     )
-    discount_rule = models.ForeignKey('DiscountRule', on_delete=models.CASCADE)
+    discount_rule = models.ForeignKey('DiscountRule', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name

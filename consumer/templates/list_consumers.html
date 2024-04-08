@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumidores</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Consumidores</h1>
+        <table id="consumers-table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Documento</th>
+                    <th>CEP</th>
+                    <th>Cidade</th>
+                    <th>Estado</th>
+                    <th>Consumo (kWh)</th>
+                    <th>Tarifa da Distribuidora</th>
+                    <th>Regra de Desconto</th>
+                </tr>
+            </thead>
+            <tbody>
+               
+            </tbody>
+        </table>
+    </div>
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            
+            $.ajax({
+                url: '/api/consumers/', 
+                method: 'GET',
+                success: function(response) {
+                    
+                    $('#consumers-table tbody').empty();
+
+                    
+                    response.forEach(function(consumer) {
+                        $('#consumers-table tbody').append(`
+                            <tr>
+                                <td>${consumer.name}</td>
+                                <td>${consumer.document}</td>
+                                <td>${consumer.zip_code}</td>
+                                <td>${consumer.city}</td>
+                                <td>${consumer.state}</td>
+                                <td>${consumer.consumption}</td>
+                                <td>${consumer.distributor_tax}</td>
+                                <td>${consumer.discount_rule}</td>
+                            </tr>
+                        `);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    // Tratar erro, se necessário
+                    console.error(error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
